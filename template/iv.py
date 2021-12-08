@@ -1,6 +1,5 @@
 
 
-##
 ##  The packages.
 from selenium import webdriver
 import pandas, os, time, tqdm
@@ -8,10 +7,9 @@ import re
 import time
 
 
-##
-##  Introduce the script.
+##  The goal.
 '''
-Define the scroll number, get the title and link of DCARD.
+從 ptt 的股票版搜尋文章，時間由新至舊，將搜尋的文章擷取，輸出成表格。
 '''
 
 

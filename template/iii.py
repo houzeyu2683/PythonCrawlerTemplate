@@ -1,38 +1,37 @@
 
 
-##
 ##  The packages.
 from selenium import webdriver
+from selenium.webdriver import chrome
+from selenium.webdriver.common.by import By
 import pandas, os, time, tqdm
 import re
 import time
 
 
-##
-##  Introduce the script.
+##  The goal.
 '''
-Define the search number, get the title and link of PTT.
+從 ptt 搜尋文章，時間由新至舊，將搜尋的文章擷取，輸出成表格。
 '''
 
 
-##
 ##  The arguments.
 platform = "ptt"
-board = 'stock'
-site = "https://www.ptt.cc/bbs/Stock/index.html"
+board = 'Gossiping'
+site = "https://www.ptt.cc/bbs/{}/index.html".format(board)
 number = 20
 folder = "LOG/III"
 confirmation = False
 
 
-##
 ##  Initial process.
 os.makedirs(folder) if not os.path.isdir(folder) else None
 option = webdriver.chrome.options.Options()
 option.binary_location = "/usr/bin/google-chrome"
-driver = webdriver.Chrome(options=option, executable_path='driver/chrome')
+service = chrome.service.Service(executable_path='driver/chrome')
+driver = webdriver.Chrome(options=option, service=service)
 driver.get(site)
-driver.find_element_by_css_selector(".btn-big").click() if confirmation else None
+driver.find_element(By.CSS_SELECTOR, ".btn-big").click() if confirmation else None
 document = {
     "platform":platform,
     "board":board,
@@ -48,18 +47,16 @@ document = {
 }
 
 
-##
 ##  Get title and link.
 for n in range(number):
     
-    document['title'] += [i.text for i in driver.find_elements_by_css_selector('.title a')]
+    document['title'] += [i.text for i in driver.find_elements(By.CSS_SELECTOR, '.title a')]
     document['link'] += [i.get_attribute('href') for i in driver.find_elements_by_xpath("//div[@class='title']/a")]
     driver.find_element_by_css_selector('.wide:nth-child(2) , .f2').click()
     time.sleep(1)
     pass
 
 
-##
 ##  Get other information base on link.
 for l in tqdm.tqdm(document['link']):
 
@@ -95,7 +92,6 @@ for l in tqdm.tqdm(document['link']):
 driver.close()
 
 
-##
 ##  Convert to table.
 table = {
     "data":pandas.DataFrame(document),

@@ -1,21 +1,17 @@
 
 
-##
 ##  The packages.
 from selenium import webdriver
 import pandas, os, time
 import re
 
 
-##
-##  Introduce the script.
+##  The goal.
 '''
-Acorrding the keyword and page, use google search collect the 
-search the results and urls.
+根據給定的 query 從 google 搜尋，將搜尋的網頁標題以及對應的網頁連結擷取出來，輸出成表格。
 '''
 
 
-##
 ##  The arguments.
 platform = 'google'
 keyword = 'dog'
@@ -23,7 +19,6 @@ page = 10
 folder = "LOG/I"
 
 
-##
 ##  Initial process.
 os.makedirs(folder) if not os.path.isdir(folder) else None
 option = webdriver.chrome.options.Options()
@@ -36,7 +31,6 @@ document = {
 }
 
 
-##
 ##  Get title and link.
 for p in range(1, page+1):
 
@@ -47,7 +41,6 @@ for p in range(1, page+1):
     pass
 
 
-##
 ##  Convert to table.
 table = {
     "data":pandas.DataFrame(document),

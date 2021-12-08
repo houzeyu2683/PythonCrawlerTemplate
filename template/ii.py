@@ -1,6 +1,5 @@
 
 
-##
 ##  The packages.
 from selenium import webdriver
 import pandas, os, time
@@ -8,14 +7,12 @@ import re
 import time
 
 
-##
-##  Introduce the script.
+##  The goal.
 '''
-According the keyword and page, get the video titles and links.
+根據給定的 query 從 91porn 成人網站搜尋，將搜尋的的影片標題以及對應的影片連結擷取出來，輸出成表格。
 '''
 
 
-##
 ##  The arguments.
 plotform = '91porn'
 keyword = '5P'
@@ -23,7 +20,6 @@ page = 150
 folder = "LOG/II"
 
 
-##
 ##  Initial process.
 os.makedirs(folder) if not os.path.isdir(folder) else None
 option = webdriver.chrome.options.Options()
@@ -35,7 +31,6 @@ document = {
 }
 
 
-##
 ##  Get title and link condition the keyword.
 for p in range(1, page+1):
 
@@ -61,7 +56,6 @@ for p in range(1, page+1):
     pass
 
 
-##
 ##  Convert to table.
 table = {
     "data":pandas.DataFrame(document),
